@@ -1,0 +1,30 @@
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-webpack
+
+
+service: ${file(./serverless.env.yml):service}
+
+
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-central-1
+  profile: ${file(./serverless.env.yml):profile}
+  memorySize: 512
+  timeout: 20
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+
+functions:
+  hello:
+    handler: src/index.hello
+    events:
+      - http:
+          method: get
+          path: hello
+          cors: true

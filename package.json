@@ -1,0 +1,34 @@
+{
+  "name": "tongue",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc --watch || true",
+    "buildOnce": "tsc",
+    "lint": "tslint --format stylish --project .",
+    "prettier": "prettier --config node_modules/tslint-lt/.prettierrc.yml --write \"{,!node_modules/}**/*.{ts,tsx}\"",
+    "test": "npm run buildOnce && npm run lint && npm run prettier",
+    "deploy": "npm run buildOnce && sls deploy"
+  },
+  "files": [
+    "src"
+  ],
+  "main": "src/index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ltetzlaff/tongue.git"
+  },
+  "author": "ltetzlaff",
+  "license": "All rights reserved.",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.11",
+    "@types/node": "^10.12.0",
+    "serverless-dotenv-plugin": "^1.1.5",
+    "serverless-webpack": "^5.2.0",
+    "source-map-support": "^0.5.9",
+    "ts-loader": "^5.2.1",
+    "tslint-lt": "^1.7.3",
+    "typescript": "^3.1.3",
+    "webpack": "^4.20.2"
+  }
+}
