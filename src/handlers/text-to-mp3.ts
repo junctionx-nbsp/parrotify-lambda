@@ -9,9 +9,6 @@ const textToMp3: Handler = (event: APIGatewayEvent, _: Context, cb: Callback) =>
 
   const polly = new Polly()
   const params = {
-    LexiconNames: [
-      "example"
-    ],
     OutputFormat: "mp3",
     SampleRate: "8000",
     Text: text,
