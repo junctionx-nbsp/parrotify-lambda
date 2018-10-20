@@ -2,10 +2,7 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-webpack
 
-
 service: ${file(./serverless.env.yml):service}
-
-
 
 provider:
   name: aws
@@ -19,6 +16,10 @@ provider:
       Action:
         - s3:*
       Resource: "*"
+    - Effect: Allow
+      Action:
+      - polly:SynthesizeSpeech
+      Resource: "*"
 
 functions:
   hello:
@@ -27,4 +28,18 @@ functions:
       - http:
           method: get
           path: hello
+          cors: true
+  textToMp3:
+    handler: src/index.textToMp3
+    events:
+      - http:
+          method: get
+          path: textToMp3
+          cors: true
+  mp3ToWav:
+    handler: src/index.mp3ToWav
+    events:
+      - http:
+          method: get
+          path: mp3ToWav
           cors: true
