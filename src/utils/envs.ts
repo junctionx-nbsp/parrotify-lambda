@@ -1,15 +1,15 @@
 const {
-  WHATEVER
+  S3_BUCKET
 } = process.env
 
 if (
   [
-    WHATEVER
-  ].some(a => a === "")
+    S3_BUCKET
+  ].some(a => a === "" || a === undefined)
 ) {
   throw new Error(`Envs not set properly: ${JSON.stringify(process.env)}`)
 }
 
 export {
-  WHATEVER
+  S3_BUCKET
 }
