@@ -30,7 +30,7 @@
     "serverless-webpack": "^5.2.0",
     "source-map-support": "^0.5.9",
     "ts-loader": "^5.2.1",
-    "tslint-lt": "^1.7.3",
+    "tslint-lt": "^1.9.0",
     "typescript": "^3.1.3",
     "webpack": "^4.20.2"
   },
