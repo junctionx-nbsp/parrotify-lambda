@@ -7,17 +7,36 @@ import { S3_BUCKET } from "../utils/envs"
 import { S3 } from "aws-sdk"
 import { createReadStream, statSync } from "fs"
 
-const mp3ToWav: Handler = async (event: APIGatewayEvent, _: Context, cb: Callback) => {
+const mp3ToWav: Handler = async (
+  event: APIGatewayEvent,
+  _: Context,
+  cb: Callback
+) => {
   const { inputUrl }: IStringIndexed = event.queryStringParameters || {}
 
   const temporaryFile = `/tmp/${random()}.wav`
 
   console.log(`Temporary File: ${temporaryFile}`)
-  await ffmpeg(["-i", inputUrl, "-acodec", "pcm_alaw", "-ar", "8000", "-ac", "1", temporaryFile])
+  await ffmpeg([
+    "-i",
+    inputUrl,
+    "-acodec",
+    "pcm_alaw",
+    "-ar",
+    "8000",
+    "-ac",
+    "1",
+    temporaryFile
+  ])
 
-  console.log(`Done with ffmpeg, file stats: ${JSON.stringify(statSync(temporaryFile))}`)
+  console.log(
+    `Done with ffmpeg, file stats: ${JSON.stringify(statSync(temporaryFile))}`
+  )
   const s3 = new S3()
-  const fileName = inputUrl.split("/").pop()!.replace(/\.mp3/i, ".wav")
+  const fileName = inputUrl
+    .split("/")
+    .pop()!
+    .replace(/\.mp3/i, ".wav")
 
   console.log(`Starting S3 upload to ${S3_BUCKET}/${fileName}`)
   const upload = s3.upload({
@@ -31,7 +50,9 @@ const mp3ToWav: Handler = async (event: APIGatewayEvent, _: Context, cb: Callbac
     cb(undefined, {
       statusCode: 200,
       body: JSON.stringify({
-        url: `https://${S3_BUCKET}.s3.amazonaws.com/${encodeURIComponent(fileName)}`
+        url: `https://${S3_BUCKET}.s3.amazonaws.com/${encodeURIComponent(
+          fileName
+        )}`
       })
     })
   } catch (e) {
